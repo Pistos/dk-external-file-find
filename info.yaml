@@ -1,0 +1,30 @@
+name: External File Find
+description: Allow Diakonos to use an external file finder
+author:
+  name: Pistos
+  email: git dawt pistos aet purepistos dawt net
+  uri: https://github.com/Pistos
+version: 1.0.0
+uris:
+  homepage: https://github.com/Pistos/dk-external-file-find
+  repository: git://github.com/Pistos/dk-external-file-find.git
+licence: GPL3
+requirements:
+  diakonos:
+    minimum: 0.9.8
+    tested:
+        - 0.9.8
+notes: >
+    This extension adds an open_with_file_finder function to Diakonos.
+
+    Pressing Ctrl-O (default) will choose a file to open using the specified
+    finder. This default keyboard shortcut will override the built-in file
+    opener of Diakonos.
+
+    The finder will be given the list of all files under the session directory
+    tree.
+
+    Edit external-file-find.conf to configure which finder to use, and what
+    keyboard shortcut to use to open files.
+
+    External file finders must already be installed.

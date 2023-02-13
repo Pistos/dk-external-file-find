@@ -6,8 +6,8 @@ author:
   uri: https://github.com/Pistos
 version: 1.0.0
 uris:
-  homepage: https://github.com/Pistos/dk-external-file-find
-  repository: git://github.com/Pistos/dk-external-file-find.git
+  homepage: https://git.sr.ht/~pistos/dk-external-file-find
+  repository: https://git.sr.ht/~pistos/dk-external-file-find
 licence: GPL3
 requirements:
   diakonos:

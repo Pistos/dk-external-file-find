@@ -11,20 +11,21 @@ uris:
 licence: GPL3
 requirements:
   diakonos:
-    minimum: 0.9.8
+    minimum: 0.9.9
     tested:
-        - 0.9.8
+        - 0.9.9
 notes: >
-    This extension adds an open_with_file_finder function to Diakonos.
-
-    Pressing Ctrl-O (default) will choose a file to open using the specified
-    finder. This default keyboard shortcut will override the built-in file
-    opener of Diakonos.
+    This extension allows usage of an external file finder instead of the
+    built-in fuzzy file finder of Diakonos.
 
     The finder will be given the list of all files under the session directory
-    tree.
+    tree, excluding any files matching any .gitignore in the session directory.
 
-    Edit external-file-find.conf to configure which finder to use, and what
-    keyboard shortcut to use to open files.
+    Add two lines like this to your Diakonos config:
 
-    External file finders must already be installed.
+        load_extension dk-external-file-find
+        extension.external_file_finder.command zf --lines 30 -f $s
+
+    where $s is the search query that the user types within Diakonos.
+
+    The external file finder must already be installed.

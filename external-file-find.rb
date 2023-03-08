@@ -11,22 +11,17 @@ class FuzzyFileFinder
   def initialize(
     ceiling:,  # ignored
     directories:,
-    ignores:,  # TODO
+    ignores:,
     recursive:  # ignored
   )
-    @ignores = Array(ignores)
-
     dirs = Array(directories)
-
     if dirs.empty?
       dirs << "."
     end
 
-    # @files = []
-    # @directories = {}  # To detect link cycles
-    # @dirs_with_many = []
+    ignores_ = collect_ignores(dirs: dirs, ignores: ignores)
 
-    write_file_list(dirs: dirs)
+    write_file_list(dirs: dirs, ignores: ignores_)
   end
 
   def find(query, max = nil)
@@ -46,7 +41,24 @@ class FuzzyFileFinder
     }
   end
 
-  private def write_file_list(dirs:)
+  private def collect_ignores(dirs:, ignores:)
+    ignores_ = Array(ignores)
+
+    dirs.each do |dir|
+      gitignore_file = File.join(dir, ".gitignore")
+      if File.exist?(gitignore_file)
+        ignores_ += (
+          File
+          .readlines(gitignore_file)
+          .map(&:strip)
+        )
+      end
+    end
+
+    ignores_
+  end
+
+  private def write_file_list(dirs:, ignores:)
     File.open(LIST_FILE, "w") do |f|
       dir_list = dirs.join(" ")
       `find #{dir_list} -type f > #{TEMP_FILE}`
@@ -66,7 +78,7 @@ class FuzzyFileFinder
           end
         end
 
-        if @ignores.none? { |pattern|
+        if ignores.none? { |pattern|
           File.fnmatch(pattern, path_)
         }
           f.puts path_

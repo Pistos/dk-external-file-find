@@ -58,11 +58,18 @@ class FuzzyFileFinder
     ignores_
   end
 
+  private def not_ignored?(ignores:, path:)
+    ignores.none? { |pattern|
+      File.fnmatch(pattern, path)
+    }
+  end
+
   private def write_file_list(dirs:, ignores:)
     File.open(LIST_FILE, "w") do |f|
       dir_list = dirs.join(" ")
       begin
         `git ls-files --cached --modified --other --exclude-standard --deduplicate > #{TEMP_FILE}`
+        used_git = true
       rescue Errno::ENOENT
         # No `git` found; fall back to `find`
         `find #{dir_list} -type f > #{TEMP_FILE}`
@@ -83,9 +90,7 @@ class FuzzyFileFinder
           end
         end
 
-        if ignores.none? { |pattern|
-          File.fnmatch(pattern, path_)
-        }
+        if used_git || not_ignored?(ignores: ignores, path: path_)
           f.puts path_
         end
       end

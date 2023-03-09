@@ -62,7 +62,7 @@ class FuzzyFileFinder
     File.open(LIST_FILE, "w") do |f|
       dir_list = dirs.join(" ")
       begin
-        `git ls-files --cached --modified --other --exclude-standard > #{TEMP_FILE}`
+        `git ls-files --cached --modified --other --exclude-standard --deduplicate > #{TEMP_FILE}`
       rescue Errno::ENOENT
         # No `git` found; fall back to `find`
         `find #{dir_list} -type f > #{TEMP_FILE}`

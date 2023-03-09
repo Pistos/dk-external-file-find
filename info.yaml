@@ -4,7 +4,7 @@ author:
   name: Pistos
   email: git dawt pistos aet purepistos dawt net
   uri: https://github.com/Pistos
-version: 1.0.0
+version: 1.1.0
 uris:
   homepage: https://git.sr.ht/~pistos/dk-external-file-find
   repository: https://git.sr.ht/~pistos/dk-external-file-find
@@ -34,3 +34,6 @@ notes: >
 
     https://github.com/natecraddock/zf
     https://github.com/junegunn/fzf
+
+    This script relies on the `find` UNIX tool. It also leverages git, if
+    available.

@@ -61,7 +61,12 @@ class FuzzyFileFinder
   private def write_file_list(dirs:, ignores:)
     File.open(LIST_FILE, "w") do |f|
       dir_list = dirs.join(" ")
-      `find #{dir_list} -type f > #{TEMP_FILE}`
+      begin
+        `git ls-files --cached --modified --other --exclude-standard > #{TEMP_FILE}`
+      rescue Errno::ENOENT
+        # No `git` found; fall back to `find`
+        `find #{dir_list} -type f > #{TEMP_FILE}`
+      end
 
       File.open(TEMP_FILE, "r").each_line do |path|
         path_ = path.strip
